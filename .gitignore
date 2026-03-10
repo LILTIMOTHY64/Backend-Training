@@ -1,0 +1,3 @@
+# Ignore out and .idea directories inside any Day - * folders
+**/Day - */out/
+**/Day - */.idea/

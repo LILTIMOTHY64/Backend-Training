@@ -21,6 +21,4 @@ public class Inheritance extends Parent{
         demoObject.Pmethod();
         demoObject.GPmethod();
     }
-
-
 }
