@@ -10,6 +10,48 @@ class Employee{
 
 }
 public class EmployeeMgmt {
+    static void createEmployee(Scanner sc,Employee emp){
+        String name;
+        String designation;
+        int age;
+
+        System.out.println("Enter the employee Name");
+        name = sc.next();
+        sc.nextLine();
+        System.out.println("Enter the employee Age");
+        age = sc.nextInt();
+        System.out.println("Enter the employee Designation");
+        designation = sc.next();
+        sc.nextLine();
+
+        System.out.println("Confirm ? (Y/N)");
+        String confirm;
+        confirm = sc.nextLine();
+
+        if (confirm.equals("Y")) {
+            emp.name = name;
+            emp.age = age;
+            emp.designation = designation;
+        }
+        else{
+            System.out.println("Employee Creation Cancelled");
+        }
+    }
+
+    static void displayDetails(Employee emp){
+        System.out.println("Employee Details:");
+        System.out.println("Employee Name: "+emp.name);
+        System.out.println("Employee Age: "+emp.age);
+        System.out.println("Employee Designation: "+emp.designation);
+        System.out.println("Employee Salary: "+emp.salary);
+    }
+
+    static void raiseSalary(Scanner sc , Employee emp){
+        System.out.println("Enter the amount of raise:");
+        int raise = sc.nextInt();
+        emp.salary += raise;
+        System.out.println("Employees new salary: "+emp.salary);
+    }
 
     static boolean programEnd = false;
 
@@ -30,44 +72,13 @@ public class EmployeeMgmt {
 
             switch (choice){
                 case(1):
-                    String name;
-                    String designation;
-                    int age;
-
-                    System.out.println("Enter the employee Name");
-                    name = sc.next();
-                    sc.nextLine();
-                    System.out.println("Enter the employee Age");
-                    age = sc.nextInt();
-                    System.out.println("Enter the employee Designation");
-                    designation = sc.next();
-                    sc.nextLine();
-
-                    System.out.println("Confirm ? (Y/N)");
-                    String confirm;
-                    confirm = sc.nextLine();
-
-                    if (confirm.equals("Y")) {
-                        emp.name = name;
-                        emp.age = age;
-                        emp.designation = designation;
-                        break;
-                    }
-                    else{
-                        break;
-                    }
+                    createEmployee(sc,emp);
+                    break;
                 case(2):
-                    System.out.println("Employee Details:");
-                    System.out.println("Employee Name: "+emp.name);
-                    System.out.println("Employee Age: "+emp.age);
-                    System.out.println("Employee Designation: "+emp.designation);
-                    System.out.println("Employee Salary: "+emp.salary);
+                    displayDetails(emp);
                     break;
                 case (3):
-                    System.out.println("Enter the amount of raise:");
-                    int raise = sc.nextInt();
-                    emp.salary += raise;
-                    System.out.println("Employees new salary: "+emp.salary);
+                    raiseSalary(sc,emp);
                     break;
                 case (4):
                     System.out.println("Exiting Program Byee");
