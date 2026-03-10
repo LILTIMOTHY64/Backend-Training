@@ -1,4 +1,4 @@
-package com.abc;
+package exercises;
 class GrandParent{
     void GPmethod(){
         System.out.println("Grand Parent Method");

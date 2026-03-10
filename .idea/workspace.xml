@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a4f02e85-0330-4621-9297-222eec471808" name="Changes" comment="Day 1 commit">
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/Test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/src/com/abc/Demo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/src/com/abc/DemoBlock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/src/com/abc/DemoConstructor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/src/com/abc/DemoVariables.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/src/com/abc/Inheritance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/src/com/abc/MethodOverloading.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day - 1/Test/src/com/abc/MethodOverriding.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Training/fullstack-course/backend-course" value="3Ajqga6ngoWaMP6kRo04DADJr3I" />
+    </persistenceIdMap>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="3Ajqga6ngoWaMP6kRo04DADJr3I" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Training/fullstack-course/backend-course&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a4f02e85-0330-4621-9297-222eec471808" name="Changes" comment="" />
+      <created>1773116438556</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1773116438556</updated>
+      <workItem from="1773116439772" duration="4493000" />
+      <workItem from="1773130034931" duration="375000" />
+      <workItem from="1773132917762" duration="968000" />
+      <workItem from="1773141241058" duration="43000" />
+      <workItem from="1773141434616" duration="165000" />
+    </task>
+    <task id="LOCAL-00001" summary="Day 1 commit">
+      <option name="closed" value="true" />
+      <created>1773130203843</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1773130203843</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Day 1 commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Day 1 commit" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

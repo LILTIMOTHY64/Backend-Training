@@ -1,4 +1,4 @@
-package com.abc;
+package exercises;
 class Family{
     void property(){
         System.out.println("Property Obtained");

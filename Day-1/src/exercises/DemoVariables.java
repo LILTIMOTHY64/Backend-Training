@@ -1,4 +1,4 @@
-package com.abc;
+package exercises;
 
 public class DemoVariables {
     int a=19;
