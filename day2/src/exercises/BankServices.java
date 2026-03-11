@@ -1,6 +1,5 @@
 package exercises;
 
-@SuppressWarnings("serial")
 class MinimumBalanceException extends Exception {
 
     MinimumBalanceException(String message) {
@@ -8,7 +7,7 @@ class MinimumBalanceException extends Exception {
     }
 
 }
-public class BankService {
+public class BankServices {
 
     static void withdrawMoney(int balance, int withdrawAmount) 
     		throws MinimumBalanceException {
