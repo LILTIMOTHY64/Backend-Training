@@ -1,5 +1,10 @@
 # Ignore out and .idea directories inside any Day - * folders
-**/Day-*/out/
-**/Day-*/.idea/
+**/day*/out/
+**/day*/.idea/
+**/day*/.classpath
+**/day*/.project
+**/day*/.settings/
+**/day*/bin/
 
 .idea
+/.metadata/
