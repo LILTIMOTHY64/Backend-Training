@@ -5,6 +5,10 @@
 **/day*/.project
 **/day*/.settings/
 **/day*/bin/
+**/projects/.classpath
+**/projects/.project
+**/projects/.settings/
+**/projects/bin/
 
 .idea
 /.metadata/
