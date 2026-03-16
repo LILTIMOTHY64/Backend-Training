@@ -113,10 +113,10 @@ public class EmployeeManagementSystem {
 		while (iterator.hasNext()) {
 			Employee e = iterator.next();
 			System.out.println("--------------------");
-			System.out.println("Employees Name: " + e.name);
-			System.out.println("Employees Age: " + e.age);
-			System.out.println("Employees Designation: " + e.designation);
-			System.out.println("Employees Salary: " + e.salary);
+			System.out.println("Employee's Name: " + e.name);
+			System.out.println("Employee's Age: " + e.age);
+			System.out.println("Employee's Designation: " + e.designation);
+			System.out.println("Employee's Salary: " + e.salary);
 			System.out.println("--------------------");
 		}
 	}
