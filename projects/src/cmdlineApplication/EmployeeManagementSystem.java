@@ -1,40 +1,17 @@
 package cmdlineApplication;
 
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-class Employee {
-
-	String name;
-	String designation;
-	int age;
-	int salary;
-}
-
-class InvalidChoice extends Exception {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public InvalidChoice() {
-		super("Invalid Choice Selected");
-	}
-}
-
-class InvalidDesignation extends Exception {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public InvalidDesignation() {
-		super("Invalid Designation Entered");
-	}
-}
-
 public class EmployeeManagementSystem {
+	private static final String TEXT_FILENAME = "C:/Training/fullstack-course/backend-course/projects/src/cmdlineApplication/Employees.txt";
+
+
 	static void createEmployee(Scanner sc, ArrayList<Employee> employees) throws InvalidChoice, InvalidDesignation {
 		Employee emp = new Employee();
 
@@ -155,6 +132,47 @@ public class EmployeeManagementSystem {
 			System.out.println("Employee with name '" + employeeName + "' not found or raise not Applied.");
 		}
 	}
+	
+    static void saveEmployeesToText(ArrayList<Employee> employees, String filename) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            for (Employee e : employees) {
+                // Format: name,designation,age,salary
+                writer.write(e.name + "," + e.designation + "," + e.age + "," + e.salary + "\n");
+            }
+            System.out.println("Employee data saved to " + filename + " successfully.");
+        } catch (IOException ex) {
+            System.err.println("Error saving employee data: " + ex.getMessage());
+        }
+    }
+
+    static ArrayList<Employee> loadEmployeesFromText(String filename) {
+        ArrayList<Employee> loadedEmployees = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 4) {
+                    try {
+                        Employee emp = new Employee();
+                        emp.name = parts[0].trim();
+                        emp.designation = parts[1].trim();
+                        emp.age = Integer.parseInt(parts[2].trim());
+                        emp.salary = Integer.parseInt(parts[3].trim());
+                        loadedEmployees.add(emp);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping malformed line (numeric parsing error): " + line + " - " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Skipping malformed line (incorrect number of parts): " + line);
+                }
+            }
+            System.out.println("Employee data loaded.");
+        } catch (IOException ex) {
+            System.err.println("Error loading employee data: " + ex.getMessage());
+        }
+        return loadedEmployees;
+    }
+
 
 	public static void main(String[] args) {
 
@@ -163,15 +181,17 @@ public class EmployeeManagementSystem {
 		Scanner sc = new Scanner(System.in);
 
 		ArrayList<Employee> employees = new ArrayList<Employee>();
+		
+		employees = loadEmployeesFromText(TEXT_FILENAME);
 
 		while (!programEnd) {
 
-			System.out.println("===============");
-			System.out.println("Press 1 to Create Employee details");
-			System.out.println("Press 2 to Display Employee details");
-			System.out.println("Press 3 to Modify Employee salary");
-			System.out.println("Press 4 to Exit");
-			System.out.println("===============");
+            System.out.println("===============");
+            System.out.println("Press 1 to Create Employee details");
+            System.out.println("Press 2 to Display Employee details");
+            System.out.println("Press 3 to Modify Employee salary");
+            System.out.println("Press 4 to Exit");
+            System.out.println("===============");
 
 			int choice = -1;
 			if (sc.hasNextInt()) {
@@ -200,10 +220,11 @@ public class EmployeeManagementSystem {
 				case (3):
 					raiseSalary(sc, employees);
 					break;
-				case (4):
-					System.out.println("Exiting Program Byee");
-					programEnd = true;
-					break;
+                case (4):
+                	saveEmployeesToText(employees, TEXT_FILENAME);
+                    System.out.println("Exiting Program Byee");
+                    programEnd = true;
+                    break;
 				default:
 					throw new InvalidChoice();
 				}
