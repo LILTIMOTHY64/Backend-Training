@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Department bean -->
+    <bean id="department" class="org.example.Department">
+        <constructor-arg index="0" value="Engineering" type="java.lang.String"/>
+        <constructor-arg index="1" value="Building A" type="java.lang.String"/>
+    </bean>
+
+    <!-- Employee bean with constructor injection (including Department dependency) -->
+    <bean id="employee" class="org.example.Employee">
+        <constructor-arg index="0" value="101" type="int"/>
+        <constructor-arg index="1" value="John Doe" type="java.lang.String"/>
+        <constructor-arg index="2" ref="department"/>
+    </bean>
+
+    <!-- EmployeeService bean with simple constructor injection -->
+    <bean id="employeeService" class="org.example.EmployeeService">
+        <constructor-arg value="HR Processing Service"/>
+    </bean>
+
+</beans>
