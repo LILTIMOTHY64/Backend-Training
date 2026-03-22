@@ -1,4 +1,4 @@
-package cmdlineApplication;
+package org.employeemanagement;
 
 class Employee {
 

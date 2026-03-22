@@ -1,4 +1,4 @@
-package cmdlineApplication;
+package org.employeemanagement;
 
 import java.util.Scanner;
 import java.io.BufferedReader;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class EmployeeManagementSystem {
-	private static final String TEXT_FILENAME = "C:/Training/fullstack-course/backend-course/projects/src/cmdlineApplication/Employees.txt";
+	private static final String TEXT_FILENAME = "C:/Training/fullstack-course/backend-course/projects/cmdLineApplication/src/main/java/org/employeemanagement/Employees.txt";
 
 
 	static void createEmployee(Scanner sc, ArrayList<Employee> employees) throws InvalidChoice, InvalidDesignation {
