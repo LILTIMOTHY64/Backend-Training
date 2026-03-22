@@ -1,9 +1,10 @@
 package org.webbasedapplication.Controllers;
 
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.webbasedapplication.Entity.Employee;
+import org.webbasedapplication.Entity.RaiseRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController
 public class EmployeeController {
 
-    private List<Employee> employees = new ArrayList<>();
+    private final List<Employee> employees = new ArrayList<>();
 
     // 1. Create Employee (POST)
     @PostMapping("/employees")
@@ -50,16 +51,16 @@ public class EmployeeController {
 
     // 3. Raise Salary (PUT)
     @PutMapping("/raise")
-    public String raiseSalary(@RequestParam String name, @RequestParam int percent) {
-        if (percent < 1 || percent > 10) {
+    public String raiseSalary(@RequestBody RaiseRequest request) {
+        if (request.getPercent() < 1 || request.getPercent() > 10) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Max Allowed Raise is 10%.");
         }
 
         for (Employee e : employees) {
-            if (e.getName().equalsIgnoreCase(name)) {
-                int increase = (int) (e.getSalary() * 0.01 * percent);
+            if (e.getName().equalsIgnoreCase(request.getName())) {
+                int increase = (int) (e.getSalary() * 0.01 * request.getPercent());
                 e.setSalary(e.getSalary() + increase);
-                return "Salary updated for " + name + ". New Salary: " + e.getSalary();
+                return "Salary updated for " + request.getName() + ". New Salary: " + e.getSalary();
             }
         }
 
@@ -67,8 +68,8 @@ public class EmployeeController {
     }
 
     // 4. Delete Employee (DELETE)
-    @DeleteMapping("/employees")
-    public String deleteEmployee(@RequestParam String name) {
+    @DeleteMapping("/employees/{name}")
+    public String deleteEmployee(@PathVariable String name) {
         for (Employee e : employees) {
             if (e.getName().equalsIgnoreCase(name)) {
                 employees.remove(e);
