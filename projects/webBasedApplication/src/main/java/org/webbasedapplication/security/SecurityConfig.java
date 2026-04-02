@@ -52,8 +52,12 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
-                // Serve the static web UI without authentication
-                .requestMatchers("/", "/index.html", "/favicon.ico").permitAll()
+                // Serve all static web UI assets without authentication
+                .requestMatchers(
+                    "/", "/index.html", "/favicon.ico",
+                    "/css/**", "/js/**",
+                    "/employees.html", "/add-employee.html", "/raise-salary.html"
+                ).permitAll()
                 // Anyone with USER or ADMIN can read employees
                 .requestMatchers(HttpMethod.GET,    "/employees", "/employees/**").hasAnyRole("USER", "ADMIN")
                 // Only ADMIN can create, update, delete

@@ -3,300 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Management System</title>
-    <style>
-        /* ── Reset ──────────────────────────────────────────────── */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #eef2f7;
-            min-height: 100vh;
-            color: #333;
-        }
-
-        /* ── Login Page ─────────────────────────────────────────── */
-        #loginPage {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1a237e 0%, #3949ab 60%, #5c6bc0 100%);
-        }
-        .login-card {
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 16px 48px rgba(0,0,0,0.25);
-            padding: 2.75rem 3rem;
-            width: 100%;
-            max-width: 420px;
-        }
-        .login-logo {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-        .login-card h1 {
-            text-align: center;
-            font-size: 1.45rem;
-            color: #1a237e;
-            margin-bottom: 0.3rem;
-        }
-        .login-card .subtitle {
-            text-align: center;
-            color: #9e9e9e;
-            font-size: 0.88rem;
-            margin-bottom: 2rem;
-        }
-        .login-hint {
-            font-size: 0.76rem;
-            color: #bbb;
-            text-align: center;
-            margin-top: 1.5rem;
-            line-height: 1.6;
-        }
-
-        /* ── Dashboard ──────────────────────────────────────────── */
-        #dashboard { display: none; }
-
-        /* ── Header ─────────────────────────────────────────────── */
-        .app-header {
-            background: linear-gradient(135deg, #1a237e 0%, #3f51b5 100%);
-            color: #fff;
-            padding: 0 2rem;
-            height: 62px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.25);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .app-header h1 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            letter-spacing: 0.4px;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.9rem;
-        }
-        .role-badge {
-            background: rgba(255,255,255,0.18);
-            border: 1px solid rgba(255,255,255,0.35);
-            border-radius: 999px;
-            padding: 0.2rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-        }
-        .role-badge.admin { background: #ffd600; color: #1a237e; border-color: #ffd600; }
-        .btn-logout {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 0.35rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-        .btn-logout:hover { background: rgba(255,255,255,0.28); }
-
-        /* ── Container ──────────────────────────────────────────── */
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        /* ── Tabs ───────────────────────────────────────────────── */
-        .tabs {
-            display: flex;
-            gap: 0.25rem;
-            border-bottom: 2px solid #d8dde8;
-            margin-bottom: 1.5rem;
-        }
-        .tab-btn {
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-            padding: 0.65rem 1.35rem;
-            font-size: 0.92rem;
-            font-weight: 500;
-            color: #777;
-            cursor: pointer;
-            border-radius: 6px 6px 0 0;
-            transition: color 0.2s, background 0.2s, border-color 0.2s;
-        }
-        .tab-btn:hover:not(:disabled) { color: #3f51b5; background: #f0f4ff; }
-        .tab-btn.active { color: #3f51b5; border-bottom-color: #3f51b5; font-weight: 700; }
-        .tab-btn:disabled { opacity: 0.38; cursor: not-allowed; }
-
-        /* ── Card ───────────────────────────────────────────────── */
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 1.75rem 2rem;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.4rem;
-        }
-        .card h2 {
-            font-size: 1.05rem;
-            color: #1a237e;
-            font-weight: 700;
-        }
-
-        /* ── Table ──────────────────────────────────────────────── */
-        .table-wrapper { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; }
-        thead th {
-            background: #f5f7ff;
-            color: #5c6880;
-            font-weight: 700;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            padding: 0.8rem 1rem;
-            text-align: left;
-            border-bottom: 2px solid #e0e5f0;
-        }
-        tbody td {
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid #f2f4fb;
-            font-size: 0.93rem;
-            vertical-align: middle;
-        }
-        tbody tr:last-child td { border-bottom: none; }
-        tbody tr:hover { background: #f9faff; }
-        .empty-msg { text-align: center; color: #bbb; padding: 3rem 1rem; font-size: 0.95rem; }
-
-        /* Designation pills */
-        .desig-pill {
-            display: inline-block;
-            padding: 0.22rem 0.7rem;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 600;
-        }
-        .desig-programmer { background: #e3f2fd; color: #1565c0; }
-        .desig-tester     { background: #f3e5f5; color: #6a1b9a; }
-        .desig-manager    { background: #e8f5e9; color: #1b5e20; }
-
-        /* ── Forms ──────────────────────────────────────────────── */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem 1.5rem;
-        }
-        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
-        .form-group.full { grid-column: 1 / -1; }
-        label {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #5c6880;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-        input[type="text"], input[type="number"], input[type="password"], select {
-            padding: 0.6rem 0.9rem;
-            border: 1.5px solid #d8dde8;
-            border-radius: 7px;
-            font-size: 0.93rem;
-            color: #333;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: #fff;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #3f51b5;
-            box-shadow: 0 0 0 3px rgba(63,81,181,0.12);
-        }
-        .field-hint {
-            font-size: 0.76rem;
-            color: #bbb;
-            margin-top: 0.2rem;
-        }
-        .salary-info {
-            background: #f5f7ff;
-            border: 1px solid #dde2f0;
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-size: 0.82rem;
-            color: #5c6880;
-        }
-        .salary-info strong { color: #1a237e; }
-
-        /* ── Buttons ─────────────────────────────────────────────── */
-        .btn {
-            padding: 0.6rem 1.5rem;
-            border: none;
-            border-radius: 7px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-        .btn:hover:not(:disabled) { opacity: 0.88; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .btn:active:not(:disabled) { transform: scale(0.97); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary  { background: #3f51b5; color: #fff; }
-        .btn-success  { background: #2e7d32; color: #fff; }
-        .btn-danger   { background: #c62828; color: #fff; }
-        .btn-warning  { background: #e65100; color: #fff; }
-        .btn-outline  { background: transparent; color: #3f51b5; border: 1.5px solid #3f51b5; }
-        .btn-sm { font-size: 0.78rem; padding: 0.28rem 0.75rem; border-radius: 5px; }
-
-        /* ── Alerts ──────────────────────────────────────────────── */
-        .alert {
-            padding: 0.85rem 1.1rem;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            margin-top: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            line-height: 1.5;
-        }
-        .alert-success { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
-        .alert-error   { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
-        .alert-info    { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; }
-
-        /* ── Spinner ─────────────────────────────────────────────── */
-        .spinner-row td { text-align: center; padding: 2.5rem; color: #9e9e9e; font-size: 0.95rem; }
-
-        /* ── Section visibility ─────────────────────────────────── */
-        .tab-section { display: none; }
-        .tab-section.active { display: block; }
-
-        /* ── Responsive header ──────────────────────────────────── */
-        @media (max-width: 500px) {
-            .app-header h1 { font-size: 0.95rem; }
-            .container { padding: 0 0.75rem; }
-            .card { padding: 1.25rem; }
-        }
-    </style>
+    <title>Login — Employee Management System</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- =====================================================================
-     LOGIN PAGE
-===================================================================== -->
-<div id="loginPage">
+<div class="login-page">
     <div class="login-card">
         <div class="login-logo">🏢</div>
         <h1>Employee Management</h1>
@@ -313,220 +25,27 @@
                 <input type="password" id="loginPassword" placeholder="Enter your password"
                        required autocomplete="current-password">
             </div>
-            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="loginBtn">
+            <button type="submit" class="btn btn-primary"
+                    style="width:100%;justify-content:center;" id="loginBtn">
                 🔐 Sign In
             </button>
             <div id="loginMsg"></div>
         </form>
 
         <p class="login-hint">
-            <strong>Admin</strong>: admin / admin123 &nbsp;•&nbsp; <strong>User</strong>: user / user123
+            <strong>Admin</strong>: admin / admin123 &nbsp;•&nbsp;
+            <strong>User</strong>: user / user123
         </p>
     </div>
 </div>
 
-
-<!-- =====================================================================
-     DASHBOARD
-===================================================================== -->
-<div id="dashboard">
-
-    <!-- Header -->
-    <header class="app-header">
-        <h1>🏢 Employee Management System</h1>
-        <div class="user-info">
-            <span>👤 <strong id="headerUsername"></strong></span>
-            <span id="headerBadge" class="role-badge"></span>
-            <button class="btn-logout" onclick="logout()">Logout</button>
-        </div>
-    </header>
-
-    <div class="container">
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" id="tabEmployees"
-                    onclick="switchTab('employees', this)">👥 All Employees</button>
-            <button class="tab-btn" id="tabAddEmployee"
-                    onclick="switchTab('addEmployee', this)">➕ Add Employee</button>
-            <button class="tab-btn" id="tabRaiseSalary"
-                    onclick="switchTab('raiseSalary', this)">💰 Raise Salary</button>
-        </div>
-
-
-        <!-- ───────────────────────────────────────────────────────
-             TAB 1 — All Employees
-        ─────────────────────────────────────────────────────────── -->
-        <div id="tab-employees" class="tab-section active">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Employee Directory</h2>
-                    <button class="btn btn-outline btn-sm" onclick="loadEmployees()">🔄 Refresh</button>
-                </div>
-
-                <div id="employeeTableContainer" class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th><th>Name</th><th>Designation</th>
-                                <th>Age</th><th>Salary</th>
-                                <th id="actionColHead" style="display:none;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="employeeTableBody">
-                            <tr class="spinner-row"><td colspan="6">Loading employees…</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="employeesMsg"></div>
-            </div>
-        </div>
-
-
-        <!-- ───────────────────────────────────────────────────────
-             TAB 2 — Add Employee (Admin only)
-        ─────────────────────────────────────────────────────────── -->
-        <div id="tab-addEmployee" class="tab-section">
-            <div class="card">
-                <h2 style="margin-bottom:1.25rem;">Add New Employee</h2>
-
-                <form id="addEmployeeForm" onsubmit="handleCreateEmployee(event)">
-                    <div class="form-grid">
-
-                        <div class="form-group">
-                            <label for="empName">Full Name</label>
-                            <input type="text" id="empName"
-                                   placeholder="e.g. John Doe" required>
-                            <span class="field-hint">Alphabets only, max 2 spaces</span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="empDesignation">Designation</label>
-                            <select id="empDesignation" required>
-                                <option value="">— Select designation —</option>
-                                <option value="Programmer">Programmer</option>
-                                <option value="Tester">Tester</option>
-                                <option value="Manager">Manager</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="empAge">Age</label>
-                            <input type="number" id="empAge"
-                                   min="19" max="60" placeholder="e.g. 28" required>
-                            <span class="field-hint">Must be between 19 and 60</span>
-                        </div>
-
-                        <div class="form-group" style="justify-content:flex-end;">
-                            <div class="salary-info">
-                                <strong>Auto-assigned salaries:</strong><br>
-                                Programmer → ₹20,000<br>
-                                Tester &nbsp;&nbsp;&nbsp;&nbsp;→ ₹15,000<br>
-                                Manager &nbsp;&nbsp;→ ₹50,000
-                            </div>
-                        </div>
-
-                        <div class="form-group full">
-                            <button type="submit" class="btn btn-success" id="addEmpBtn">
-                                ➕ Add Employee
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="addEmployeeMsg"></div>
-                </form>
-            </div>
-        </div>
-
-
-        <!-- ───────────────────────────────────────────────────────
-             TAB 3 — Raise Salary (Admin only)
-        ─────────────────────────────────────────────────────────── -->
-        <div id="tab-raiseSalary" class="tab-section">
-            <div class="card">
-                <h2 style="margin-bottom:1.25rem;">Raise Employee Salary</h2>
-
-                <form id="raiseSalaryForm" onsubmit="handleRaiseSalary(event)">
-                    <div class="form-grid">
-
-                        <div class="form-group">
-                            <label for="raiseEmpName">Employee Name</label>
-                            <input type="text" id="raiseEmpName"
-                                   placeholder="Enter exact employee name" required>
-                            <span class="field-hint">Name is case-insensitive</span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="raisePercent">Raise Percentage</label>
-                            <input type="number" id="raisePercent"
-                                   min="1" max="10" placeholder="e.g. 5" required>
-                            <span class="field-hint">Between 1% and 10% allowed</span>
-                        </div>
-
-                        <div class="form-group full">
-                            <button type="submit" class="btn btn-warning" id="raiseBtn">
-                                💰 Apply Raise
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="raiseSalaryMsg"></div>
-                </form>
-            </div>
-        </div>
-
-    </div><!-- /container -->
-</div><!-- /dashboard -->
-
-
-<!-- =====================================================================
-     JAVASCRIPT
-===================================================================== -->
+<script src="js/common.js"></script>
 <script>
-    /* ── State ──────────────────────────────────────────────────────────── */
-    let authHeader = '';
-    let isAdmin    = false;
-
-    /* ── Alert helper ───────────────────────────────────────────────────── */
-    function showAlert(containerId, html, type = 'success') {
-        const icons = { success: '✅', error: '❌', info: 'ℹ️' };
-        document.getElementById(containerId).innerHTML =
-            `<div class="alert alert-${type}">${icons[type] || ''} ${html}</div>`;
-    }
-    function clearMsg(id) { document.getElementById(id).innerHTML = ''; }
-
-    /* ── Fetch wrapper ──────────────────────────────────────────────────── */
-    async function apiFetch(url, options = {}) {
-        return fetch(url, {
-            ...options,
-            headers: {
-                'Authorization': authHeader,
-                'Content-Type':  'application/json',
-                'Accept':        'application/json',
-                ...(options.headers || {})
-            }
-        });
+    /* Redirect already-authenticated users straight to the employee list */
+    if (getAuthHeader()) {
+        window.location.replace('/employees.html');
     }
 
-    /* ── Parse response body (handles JSON string or JSON object) ────────── */
-    async function parseBody(res) {
-        const text = await res.text();
-        if (!text) return null;
-        try { return JSON.parse(text); }
-        catch { return text; }
-    }
-
-    /* ── Format error object / string into HTML ─────────────────────────── */
-    function formatError(data) {
-        if (!data) return 'An unknown error occurred.';
-        if (typeof data === 'string') return escHtml(data);
-        return Object.entries(data)
-            .map(([field, msg]) => `<strong>${escHtml(field)}</strong>: ${escHtml(msg)}`)
-            .join('<br>');
-    }
-
-    /* ── Login ──────────────────────────────────────────────────────────── */
     async function handleLogin(e) {
         e.preventDefault();
         clearMsg('loginMsg');
@@ -537,16 +56,13 @@
         const tempAuth = `Basic ${encoded}`;
 
         const loginBtn = document.getElementById('loginBtn');
-        loginBtn.disabled = true;
+        loginBtn.disabled    = true;
         loginBtn.textContent = 'Signing in…';
 
         try {
-            /* Validate credentials by calling a protected endpoint */
+            /* Validate credentials against a protected endpoint */
             const res = await fetch('/employees', {
-                headers: {
-                    'Authorization': tempAuth,
-                    'Accept': 'application/json'
-                }
+                headers: { 'Authorization': tempAuth, 'Accept': 'application/json' }
             });
 
             if (res.status === 401) {
@@ -554,249 +70,34 @@
                 return;
             }
             if (!res.ok) {
-                showAlert('loginMsg', 'Login failed. Please try again.', 'error');
+                showAlert('loginMsg', 'Login failed — please try again.', 'error');
                 return;
             }
 
-            /* Store credentials */
-            authHeader = tempAuth;
-
-            /* Detect role: try an admin-only POST with an empty body.
-               400 = validation error (ADMIN), 403 = USER role */
+            /* Detect role: probe admin-only POST.
+               400 (validation error) → ADMIN reached the endpoint.
+               403 (forbidden)        → USER role. */
             const probe = await fetch('/employees', {
-                method: 'POST',
+                method:  'POST',
                 headers: {
-                    'Authorization': authHeader,
+                    'Authorization': tempAuth,
                     'Content-Type':  'application/json',
                     'Accept':        'application/json'
                 },
                 body: JSON.stringify({})
             });
-            isAdmin = (probe.status !== 403);
+            const isAdmin = (probe.status !== 403);
 
-            showDashboard(username);
+            saveAuth(tempAuth, username, isAdmin);
+            window.location.href = '/employees.html';
 
         } catch (err) {
-            showAlert('loginMsg', 'Could not connect to server. Is the backend running?', 'error');
+            showAlert('loginMsg',
+                'Could not connect to server. Is the backend running?', 'error');
         } finally {
-            loginBtn.disabled = false;
+            loginBtn.disabled  = false;
             loginBtn.innerHTML = '🔐 Sign In';
         }
-    }
-
-    /* ── Show Dashboard ─────────────────────────────────────────────────── */
-    function showDashboard(username) {
-        document.getElementById('loginPage').style.display  = 'none';
-        document.getElementById('dashboard').style.display  = 'block';
-        document.getElementById('headerUsername').textContent = username;
-
-        const badge = document.getElementById('headerBadge');
-        badge.textContent = isAdmin ? 'Admin' : 'User';
-        badge.className   = 'role-badge' + (isAdmin ? ' admin' : '');
-
-        /* Show / lock admin-only tabs */
-        if (!isAdmin) {
-            ['tabAddEmployee', 'tabRaiseSalary'].forEach(id => {
-                const btn = document.getElementById(id);
-                btn.disabled = true;
-                btn.title    = 'Admin only';
-            });
-        }
-
-        /* Show / hide the Action column header */
-        const col = document.getElementById('actionColHead');
-        if (col) col.style.display = isAdmin ? '' : 'none';
-
-        loadEmployees();
-    }
-
-    /* ── Logout ─────────────────────────────────────────────────────────── */
-    function logout() {
-        authHeader = '';
-        isAdmin    = false;
-        document.getElementById('loginPage').style.display = 'flex';
-        document.getElementById('dashboard').style.display = 'none';
-        document.getElementById('loginForm').reset();
-
-        /* Re-enable admin tabs for next login */
-        ['tabAddEmployee', 'tabRaiseSalary'].forEach(id => {
-            const btn = document.getElementById(id);
-            btn.disabled = false;
-            btn.title    = '';
-        });
-
-        /* Reset to first tab */
-        switchTab('employees', document.getElementById('tabEmployees'));
-    }
-
-    /* ── Tab switching ──────────────────────────────────────────────────── */
-    function switchTab(name, btn) {
-        document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(`tab-${name}`).classList.add('active');
-        if (btn) btn.classList.add('active');
-    }
-
-    /* ── Load All Employees ─────────────────────────────────────────────── */
-    async function loadEmployees() {
-        const tbody = document.getElementById('employeeTableBody');
-        clearMsg('employeesMsg');
-        tbody.innerHTML = '<tr class="spinner-row"><td colspan="6">⏳ Loading…</td></tr>';
-
-        try {
-            const res  = await apiFetch('/employees');
-            const data = await parseBody(res);
-
-            if (!res.ok) {
-                tbody.innerHTML = `<tr class="spinner-row"><td colspan="6">Failed to load employees.</td></tr>`;
-                return;
-            }
-
-            if (!Array.isArray(data) || data.length === 0) {
-                tbody.innerHTML = `<tr class="spinner-row"><td colspan="6">No employees found.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = data.map(emp => {
-                const desigClass = 'desig-' + emp.designation.toLowerCase();
-                const deleteCell = isAdmin
-                    ? `<td><button class="btn btn-danger btn-sm"
-                            onclick="handleDelete(${emp.id}, '${escAttr(emp.name)}')"
-                            title="Delete employee">🗑 Delete</button></td>`
-                    : '';
-                return `<tr>
-                    <td><strong>${emp.id}</strong></td>
-                    <td>${escHtml(emp.name)}</td>
-                    <td><span class="desig-pill ${desigClass}">${escHtml(emp.designation)}</span></td>
-                    <td>${emp.age}</td>
-                    <td>₹${emp.salary.toLocaleString('en-IN')}</td>
-                    ${deleteCell}
-                </tr>`;
-            }).join('');
-
-            /* Show/hide action column header based on role */
-            const col = document.getElementById('actionColHead');
-            if (col) col.style.display = isAdmin ? '' : 'none';
-
-        } catch (err) {
-            tbody.innerHTML = '<tr class="spinner-row"><td colspan="6">⚠️ Error loading employees.</td></tr>';
-        }
-    }
-
-    /* ── Create Employee ────────────────────────────────────────────────── */
-    async function handleCreateEmployee(e) {
-        e.preventDefault();
-        clearMsg('addEmployeeMsg');
-
-        const btn  = document.getElementById('addEmpBtn');
-        btn.disabled = true;
-        btn.textContent = 'Adding…';
-
-        const body = {
-            name:        document.getElementById('empName').value.trim(),
-            designation: document.getElementById('empDesignation').value,
-            age:         parseInt(document.getElementById('empAge').value, 10)
-        };
-
-        try {
-            const res  = await apiFetch('/employees', { method: 'POST', body: JSON.stringify(body) });
-            const data = await parseBody(res);
-
-            if (res.ok) {
-                showAlert('addEmployeeMsg',
-                    `Employee <strong>${escHtml(data.name)}</strong> added successfully! &nbsp;
-                     ID: <strong>${data.id}</strong> &bull;
-                     Salary: <strong>₹${data.salary.toLocaleString('en-IN')}</strong>`,
-                    'success');
-                document.getElementById('addEmployeeForm').reset();
-                loadEmployees();
-            } else if (res.status === 403) {
-                showAlert('addEmployeeMsg', 'Access denied — Admin role required.', 'error');
-            } else {
-                showAlert('addEmployeeMsg', formatError(data), 'error');
-            }
-
-        } catch (err) {
-            showAlert('addEmployeeMsg', 'Error connecting to server.', 'error');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = '➕ Add Employee';
-        }
-    }
-
-    /* ── Raise Salary ───────────────────────────────────────────────────── */
-    async function handleRaiseSalary(e) {
-        e.preventDefault();
-        clearMsg('raiseSalaryMsg');
-
-        const btn = document.getElementById('raiseBtn');
-        btn.disabled = true;
-        btn.textContent = 'Applying…';
-
-        const body = {
-            name:    document.getElementById('raiseEmpName').value.trim(),
-            percent: parseInt(document.getElementById('raisePercent').value, 10)
-        };
-
-        try {
-            const res  = await apiFetch('/raise', { method: 'PUT', body: JSON.stringify(body) });
-            const data = await parseBody(res);
-
-            if (res.ok) {
-                /* Success response is a plain JSON string */
-                const msg = typeof data === 'string' ? escHtml(data) : formatError(data);
-                showAlert('raiseSalaryMsg', msg, 'success');
-                document.getElementById('raiseSalaryForm').reset();
-                loadEmployees();
-            } else if (res.status === 403) {
-                showAlert('raiseSalaryMsg', 'Access denied — Admin role required.', 'error');
-            } else {
-                showAlert('raiseSalaryMsg', formatError(data), 'error');
-            }
-
-        } catch (err) {
-            showAlert('raiseSalaryMsg', 'Error connecting to server.', 'error');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = '💰 Apply Raise';
-        }
-    }
-
-    /* ── Delete Employee ────────────────────────────────────────────────── */
-    async function handleDelete(id, name) {
-        if (!confirm(`Delete employee "${name}" (ID: ${id})?\n\nThis action cannot be undone.`)) return;
-        clearMsg('employeesMsg');
-
-        try {
-            const res  = await apiFetch(`/employees/${id}`, { method: 'DELETE' });
-            const data = await parseBody(res);
-
-            if (res.ok) {
-                const msg = typeof data === 'string' ? escHtml(data) : formatError(data);
-                showAlert('employeesMsg', msg, 'success');
-                loadEmployees();
-            } else if (res.status === 403) {
-                showAlert('employeesMsg', 'Access denied — Admin role required.', 'error');
-            } else {
-                showAlert('employeesMsg', formatError(data), 'error');
-            }
-
-        } catch (err) {
-            showAlert('employeesMsg', 'Error connecting to server.', 'error');
-        }
-    }
-
-    /* ── HTML escaping ──────────────────────────────────────────────────── */
-    function escHtml(str) {
-        return String(str ?? '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-    function escAttr(str) {
-        return String(str ?? '').replace(/'/g, "\\'");
     }
 </script>
 </body>

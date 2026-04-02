@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Employees — Employee Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="headerContainer"></div>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Employee Directory</h2>
+            <button class="btn btn-outline btn-sm" onclick="loadEmployees()">🔄 Refresh</button>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Age</th>
+                        <th>Salary</th>
+                        <th id="actionColHead" style="display:none;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                    <tr class="spinner-row"><td colspan="6">Loading employees…</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="employeesMsg"></div>
+    </div>
+</div>
+
+<script src="js/common.js"></script>
+<script>
+    /* Guard — redirect to login if not authenticated */
+    if (!checkAuth()) { /* checkAuth handles the redirect */ }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderHeader('headerContainer');
+        /* Show or hide the Action column based on role */
+        const col = document.getElementById('actionColHead');
+        if (col) col.style.display = getIsAdmin() ? '' : 'none';
+        loadEmployees();
+    });
+
+    /* ── Load employee list ───────────────────────────────── */
+    async function loadEmployees() {
+        const tbody = document.getElementById('employeeTableBody');
+        clearMsg('employeesMsg');
+        tbody.innerHTML = '<tr class="spinner-row"><td colspan="6">⏳ Loading…</td></tr>';
+
+        try {
+            const res  = await apiFetch('/employees');
+            const data = await parseBody(res);
+
+            if (!res.ok) {
+                tbody.innerHTML =
+                    `<tr class="spinner-row"><td colspan="6">❌ Failed to load employees.</td></tr>`;
+                return;
+            }
+
+            if (!Array.isArray(data) || data.length === 0) {
+                tbody.innerHTML =
+                    `<tr class="spinner-row"><td colspan="6">No employees found.</td></tr>`;
+                return;
+            }
+
+            const isAdm = getIsAdmin();
+            tbody.innerHTML = data.map(emp => {
+                const desigClass = 'desig-' + emp.designation.toLowerCase();
+                const deleteCell = isAdm
+                    ? `<td>
+                           <button class="btn btn-danger btn-sm"
+                               onclick="handleDelete(${emp.id}, '${escAttr(emp.name)}')"
+                               title="Delete employee">🗑 Delete</button>
+                       </td>`
+                    : '';
+                return `<tr>
+                    <td><strong>${emp.id}</strong></td>
+                    <td>${escHtml(emp.name)}</td>
+                    <td><span class="desig-pill ${desigClass}">${escHtml(emp.designation)}</span></td>
+                    <td>${emp.age}</td>
+                    <td>₹${emp.salary.toLocaleString('en-IN')}</td>
+                    ${deleteCell}
+                </tr>`;
+            }).join('');
+
+            /* Keep Action column header in sync */
+            const col = document.getElementById('actionColHead');
+            if (col) col.style.display = isAdm ? '' : 'none';
+
+        } catch (err) {
+            tbody.innerHTML =
+                '<tr class="spinner-row"><td colspan="6">⚠️ Error loading employees.</td></tr>';
+        }
+    }
+
+    /* ── Delete employee ──────────────────────────────────── */
+    async function handleDelete(id, name) {
+        if (!confirm(`Delete employee "${name}" (ID: ${id})?\n\nThis action cannot be undone.`)) return;
+        clearMsg('employeesMsg');
+
+        try {
+            const res  = await apiFetch(`/employees/${id}`, { method: 'DELETE' });
+            const data = await parseBody(res);
+
+            if (res.ok) {
+                const msg = typeof data === 'string' ? escHtml(data) : formatError(data);
+                showAlert('employeesMsg', msg, 'success');
+                loadEmployees();
+            } else if (res.status === 403) {
+                showAlert('employeesMsg', 'Access denied — Admin role required.', 'error');
+            } else {
+                showAlert('employeesMsg', formatError(data), 'error');
+            }
+
+        } catch (err) {
+            showAlert('employeesMsg', 'Error connecting to server.', 'error');
+        }
+    }
+</script>
+</body>
+</html>
+
